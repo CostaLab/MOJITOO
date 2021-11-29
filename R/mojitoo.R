@@ -117,6 +117,7 @@ mojitoo.Seurat <- function(
     if(max(b_dims) > ncol(x=b_redu)){
       stop(sprintf("%s: more dimensions specified in dims than have been computed", reduction.list[[(i+1)]]))
     }
+    b_redu <- b_redu[, b_dims]
     message("adding ", reduction.list[[(i+1)]])
     cca_ <- cc(a_redu, b_redu)
 
@@ -125,16 +126,16 @@ mojitoo.Seurat <- function(
 
     correlation.test=sapply(1:ncol(a), function(i) (cor.test(a[, i], b[, i])$p.value ))
     correlation.test <- round(p.adjust(correlation.test, "BH"), 3)
-    last_idx <-length(which(correlation.test<corr.pval)) ## if NA, please catch the exception
-    assertthat::assert_that(last_idx > 3)
-    cca_add <- a[, 1:last_idx] + b[, 1:last_idx]
-    message(i, " round cc ", last_idx)
+    sig_idx <- which(correlation.test<corr.pval) ## if NA, please catch the exception
+    assertthat::assert_that(length(sig_idx) > 3)
+    cca_add <- a[, sig_idx] + b[, sig_idx]
+    message(i, " round cc ", ncol(cca_add))
     #a_redu <- cca_add
     #cca_add <- (a_redu %*% cca_$xcoef) + (b_redu %*% cca_$ycoef)
     a_redu <- cca_add
   }
   colnames(cca_add) <- paste0("mojitoo", 1:ncol(cca_add))
-  object[[reduction.name]] <- CreateDimReducObject(embeddings=cca_add, key="mojitoo", ...)
+  object[[reduction.name]] <- CreateDimReducObject(embeddings=cca_add, key=reduction.name, ...)
 
   return(object)
 }
