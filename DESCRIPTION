@@ -1,0 +1,31 @@
+Package: MOJITOO
+Type: Package
+Title: What the Package Does in One 'Title Case' Line
+Version: 1.0
+Date: 2021-10-17
+Author: Your Name
+Maintainer: Your Name <your@email.com>
+Description: One paragraph description of what the package does as one or more full sentences.
+Depends:
+    R (>= 4.0.0),
+    methods
+License: GPL (>= 2)
+Imports:
+  Rcpp (>= 1.0.7),
+  Seurat(>= 3.2.3),
+  Signac(>= 1.0.0),
+  ArchR(>= 1.0.0),
+  CCA(>= 1.2.1),
+  reticulate,
+  S4Vectors,
+  ramify,
+  plyr,
+  rhdf5,
+  Matrix,
+  glue,
+  dplyr,
+  reshape2,
+  ggplot2,
+  assertthat
+LinkingTo: Rcpp, RcppEigen, RcppProgress
+RoxygenNote: 7.1.2
