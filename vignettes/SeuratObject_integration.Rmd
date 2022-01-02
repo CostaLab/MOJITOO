@@ -117,7 +117,7 @@ GeneCCHeatmap(object,
 ```{r}
 #wget --no-verbose https://www.dropbox.com/s/ko75p2q5kimvzl7/genes.gtf.zip
 #unzip genes.gtf.zip
-#wget --no-verbose https://dropbox....
+#wget --no-verbose https://www.dropbox.com/s/nluhbbhm148nwt7/bigwig.zip
 #unzip bigwig.zip
 data_track_bws <- list(
     "B cell progenitor"             = "bigwig/B_cell_progenitor.bw",
