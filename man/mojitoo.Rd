@@ -12,10 +12,30 @@ mojitoo(object, ...)
   reduction.list = list(),
   dims.list = list(),
   reduction.name = "mojitoo",
+  is.reduction.center = F,
+  is.reduction.scale = F,
+  fdr.method = "BH",
   corr.pval = 0.05,
   assay.list = list(),
   ...
 )
+}
+\arguments{
+\item{object}{Seurat object}
+
+\item{reduction.list}{reduction list}
+
+\item{dims.list}{dims vector list}
+
+\item{reduction.name}{reduction name}
+
+\item{is.reduction.center}{bool if center the reduction}
+
+\item{is.reduction.scale}{bool if scale the reduction}
+
+\item{fdr.method}{fdr method, default BH}
+
+\item{correlation}{test 0.05}
 }
 \value{
 The object with mojitoo reduction

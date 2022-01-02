@@ -15,7 +15,6 @@ Imports:
   Seurat(>= 3.2.3),
   Signac(>= 1.0.0),
   ArchR(>= 1.0.0),
-  CCA(>= 1.2.1),
   reticulate,
   S4Vectors,
   ramify,
@@ -25,7 +24,15 @@ Imports:
   glue,
   dplyr,
   reshape2,
+  pbapply,
   ggplot2,
+  ComplexHeatmap,
+  patchwork,
+  Gviz,
+  grid,
+  tidyr,
+  fda,
   assertthat
 LinkingTo: Rcpp, RcppEigen, RcppProgress
 RoxygenNote: 7.1.2
+Encoding: UTF-8

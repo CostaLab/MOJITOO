@@ -1,0 +1,167 @@
+---
+title: "Using MOJITOO in R for Seurat"
+author: "MOJITOO"
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output: html_document
+---
+
+### 1. download data
+```{bash, echo=FALSE}
+wget --no-verbose  https://cf.10xgenomics.com/samples/cell-arc/1.0.0/pbmc_granulocyte_sorted_10k/pbmc_granulocyte_sorted_10k_filtered_feature_bc_matrix.h5
+wget --no-verbose  https://www.dropbox.com/s/s2lwq3dsi7eyjga/PBMC-Multiom_annotation.tsv
+```
+
+### 2. library
+```{r}
+#install.packages("devtools")
+#devtools::install_github("CostaLab/MOJITOO", build_vignettes = TRUE)
+#library(MOJITOO)
+library(Seurat)
+library(Signac)
+library(MOJITOO)
+library(ggsci)
+```
+
+
+### 3. Create Seurat Object
+```{r}
+mtxs <- Read10X_h5("pbmc_granulocyte_sorted_10k_filtered_feature_bc_matrix.h5")
+RNA <- mtxs[["Gene Expression"]]
+ATAC <- mtxs[["Peaks"]]
+peaks <- rownames(ATAC)
+ATAC <- ATAC[which(startsWith(peaks, "chr")), ]
+
+meta <- read.csv("PBMC-Multiom_annotation.tsv", sep="\t")
+
+RNA <- RNA[, meta$barcode]
+ATAC <- ATAC[, meta$barcode]
+rownames(meta) <- meta$barcode
+object <- CreateSeuratObject(counts=RNA, meta.data=meta, assay="RNA")
+object[["Peaks"]] <- CreateAssayObject(counts=ATAC, assay="Peaks")
+object$celltype <- object$annotation
+rm(mtxs)
+rm(RNA)
+rm(ATAC)
+gc()
+```
+### subset if need to save memory
+```{r}
+set.seed(1)
+object <- subset(object, cells=sample(colnames(object))[1:round(0.3*ncol(object))])
+```
+
+
+### 4.  RNA & ATAC dimension reductions
+```{r}
+## RNA pre-processing and PCA dimension reduction
+DefaultAssay(object) <- "RNA"
+object <-  NormalizeData(object, normalization.method = "LogNormalize", scale.factor = 10000, verbose=F)
+object <- FindVariableFeatures(object, nfeatures=3000, verbose=F)
+object <- ScaleData(object, verbose=F)
+object <-  RunPCA(object, npcs=50, reduction.name="RNA_PCA", verbose=F)
+
+## RNA pre-processing and LSI dimension reduction
+DefaultAssay(object) <- "Peaks"
+object <- RunTFIDF(object, verbose=F)
+object <- FindTopFeatures(object, min.cutoff = 'q0', verbose=F)
+object <- RunSVD(object, verbose=F)
+```
+
+### 5. RUN MOJITOO
+```{r}
+object <- mojitoo(
+     object=object,
+     reduction.list = list("RNA_PCA", "lsi"),
+     dims.list = list(1:50, 2:50), ## exclude 1st dimension of LSI
+     reduction.name='MOJITOO',
+     assay="RNA"
+)
+DefaultAssay(object) <- "RNA"
+embedd <- Embeddings(object[["MOJITOO"]])
+object <- RunUMAP(object, reduction="MOJITOO", reduction.name="MOJITOO_UMAP", dims=1:ncol(embedd), verbose=F)
+saveRDS(object, "seu.Rds")
+```
+
+### 6. UMAP of True labels
+```{r}
+
+object <- readRDS("seu.Rds") ## 1/10 cells
+DimPlot(object, reduction = "MOJITOO_UMAP", group.by = "celltype", cols=ggsci::pal_igv()(30))
+```
+
+### 7. MOJITOO CCs
+```{r}
+GeneCCDimPlot(object,
+              CCsToPlot = 1:4,
+              RNA.assay="RNA",
+              umap = "MOJITOO_UMAP",
+              MOJITOO.reduction="MOJITOO")
+
+```
+
+### Heatmap
+```{r}
+GeneCCHeatmap(object,
+                    CCsToPlot = 1:2,
+                    RNA.assay="RNA",
+                    colorbar.group = "celltype",
+                    MOJITOO.reduction="MOJITOO",
+                    filter.mito = T,
+                    filter.ribo = T,
+                    topN = 10
+                    )
+
+```
+
+### Tracks
+```{r}
+#wget --no-verbose https://www.dropbox.com/s/ko75p2q5kimvzl7/genes.gtf.zip
+#unzip genes.gtf.zip
+#wget --no-verbose https://dropbox....
+#unzip bigwig.zip
+data_track_bws <- list(
+    "B cell progenitor"             = "bigwig/B_cell_progenitor.bw",
+    "CD14+ Monocytes"               = "bigwig/CD14+_Monocytes.bw",
+    "CD16+ Monocytes"               = "bigwig/CD16+_Monocytes.bw",
+    "CD4 Memory"                    = "bigwig/CD4_Memory.bw",
+    "CD4 Naive"                     = "bigwig/CD4_Naive.bw",
+    "CD8 effector"                  = "bigwig/CD8_effector.bw",
+    "CD8 Naive"                     = "bigwig/CD8_Naive.bw",
+    "Dendritic cell"                = "bigwig/Dendritic_cell.bw",
+    "Double negative T cell"        = "bigwig/Double_negative_T_cell.bw",
+    "NK cell"                       = "bigwig/NK_cell.bw",
+    "pDC"                           = "bigwig/pDC.bw",
+    "Platelets"                     = "bigwig/Platelets.bw",
+    "pre-B cell"                    = "bigwig/pre-B_cell.bw"
+)
+library(rtracklayer)
+gene_model <- readGFF("genes.gtf")
+gene_model$chromosome <- gene_model$seqid
+gene_model$gene <- gene_model$gene_id
+gene_model$transcript <- gene_model$transcript_id
+gene_model$symbol <- gene_model$gene_name
+gene_model$exon <- gene_model$exon_id
+gene_model$width <- gene_model$end - gene_model$start + 1
+gene_model$feature <- gene_model$transcript_type
+gene_model <- subset(gene_model, !is.na(transcript) & !is.na(exon))
+gene_model <- NULL
+
+gtree <- ATACTrack(object,
+                 CC = 1,
+                 group.by="celltype",
+                 bigwig.file.list=data_track_bws,
+                 MOJITOO.reduction="MOJITOO",
+                 Peak.assay="Peaks",
+                 gene.model=gene_model,
+                 cols =ggsci::pal_igv()(51),
+                 ylim.datatrack=c(0,16),
+                 fontsize.geneAxis=5,
+                 fontsize.geneRegion=10,
+                 fontsize.datatrack=8,
+                 show.legend=T,
+                 genome="hg38"
+                 )
+#grid::grid.newpage()
+grid::grid.draw(gtree)
+```
+

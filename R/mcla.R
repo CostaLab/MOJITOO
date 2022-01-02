@@ -159,7 +159,7 @@ load_pymetis <- function() {
 }
 
 .onLoad <- function(libname, pkgname) {
-  message("on load to load pymetis")
+  #message("on load to load pymetis")
   py_config <- reticulate::py_discover_config(required_module = "pymetis")
   load_pymetis()
   #numpy <<- reticulate::import("numpy", delay_load = TRUE)

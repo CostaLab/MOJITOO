@@ -20,9 +20,12 @@ nConnectivityMatrix <- function(labels.list, random_seed=1){
 
 #Modified from: https://github.com/tsano430/ClusterEnsembles
 
-#' @param labels.list
-#' @param random_seed
-#' @param maxiter
+#' ConsensusNMF function
+#'
+#' NMF consensus clustering
+#' @param labels.list clusters list
+#' @param random_seed random seed set
+#' @param maxiter maximum iterations
 #' @importFrom ramify argmax
 #' @export
 #' @examples

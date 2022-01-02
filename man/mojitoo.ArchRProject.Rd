@@ -9,8 +9,21 @@
   reduction.list = list(),
   dims.list = list(),
   reduction.name = "mojitoo",
+  is.reduction.center = F,
+  is.reduction.scale = F,
+  fdr.method = "BH",
+  corr.pval = 0.05,
   ...
 )
+}
+\arguments{
+\item{object}{ArchRProjectObject}
+
+\item{reduction.list}{reduction list}
+
+\item{dims.list}{dims vector list}
+
+\item{reduction.name}{reduction name}
 }
 \description{
 This function allows you to integrate multi-omics dim-reductions

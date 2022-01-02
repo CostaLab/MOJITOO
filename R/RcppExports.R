@@ -2,22 +2,22 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 CppMatMult <- function(m1, m2) {
-    .Call(`_MOJITOO_CppMatMult`, m1, m2)
+    .Call('_MOJITOO_CppMatMult', PACKAGE = 'MOJITOO', m1, m2)
 }
 
 CppMatWiseMul <- function(m1, m2) {
-    .Call(`_MOJITOO_CppMatWiseMul`, m1, m2)
+    .Call('_MOJITOO_CppMatWiseMul', PACKAGE = 'MOJITOO', m1, m2)
 }
 
 CppMatWiseDiv <- function(m1, m2) {
-    .Call(`_MOJITOO_CppMatWiseDiv`, m1, m2)
+    .Call('_MOJITOO_CppMatWiseDiv', PACKAGE = 'MOJITOO', m1, m2)
 }
 
 CppMatAddScalar <- function(m, eps = 1e-8) {
-    .Call(`_MOJITOO_CppMatAddScalar`, m, eps)
+    .Call('_MOJITOO_CppMatAddScalar', PACKAGE = 'MOJITOO', m, eps)
 }
 
 NMF <- function(W, Q, S, n, nclass, maxiter = 200L, display_progress = TRUE) {
-    .Call(`_MOJITOO_NMF`, W, Q, S, n, nclass, maxiter, display_progress)
+    .Call('_MOJITOO_NMF', PACKAGE = 'MOJITOO', W, Q, S, n, nclass, maxiter, display_progress)
 }
 
