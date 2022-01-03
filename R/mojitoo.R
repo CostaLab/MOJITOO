@@ -100,7 +100,6 @@ mojitoo.Seurat <- function(
 #' @param reduction.name reduction name
 #' @keywords mojitoo
 #' @importFrom ArchR getReducedDims
-#' @importFrom CCA cc
 #' @importFrom S4Vectors SimpleList
 #' @export
 #' @examples

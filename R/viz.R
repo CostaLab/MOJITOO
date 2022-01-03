@@ -9,7 +9,6 @@
 #' @importFrom ComplexHeatmap Heatmap HeatmapAnnotation
 #' @importFrom Seurat Embeddings
 #' @importFrom dplyr `%>%`
-#' @importFrom CCA cc
 #' @importFrom glue glue
 #' @importFrom circlize colorRamp2
 #' @rdname GeneCCHeatmap.Seurat
