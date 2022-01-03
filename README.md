@@ -4,6 +4,7 @@ Zhijian Li<sup>1</sup>,
 Ivan G. Costa<sup>1*</sup>
 <sup>1</sup>Institute for Computational Genomics, Faculty of Medicine, RWTH Aachen University, Aachen, 52074 Germany
 
+<sup>1</sup>Institute for Computational Genomics, Faculty of Medicine, RWTH Aachen University, Aachen, 52074 Germany
 
 ### Installation
 ```{r}
