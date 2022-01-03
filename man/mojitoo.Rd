@@ -16,7 +16,6 @@ mojitoo(object, ...)
   is.reduction.scale = F,
   fdr.method = "BH",
   corr.pval = 0.05,
-  assay.list = list(),
   ...
 )
 }

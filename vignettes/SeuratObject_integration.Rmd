@@ -1,6 +1,6 @@
 ---
 title: "Using MOJITOO in R for Seurat"
-author: "MOJITOO"
+author: "Mingbo Cheng"
 date: '`r format(Sys.Date(), "%B %d, %Y")`'
 output: html_document
 ---
@@ -15,11 +15,10 @@ wget --no-verbose  https://www.dropbox.com/s/s2lwq3dsi7eyjga/PBMC-Multiom_annota
 ```{r}
 #install.packages("devtools")
 #devtools::install_github("CostaLab/MOJITOO", build_vignettes = TRUE)
-#library(MOJITOO)
-library(Seurat)
-library(Signac)
-library(MOJITOO)
-library(ggsci)
+suppressPackageStartupMessages(library(Seurat))
+suppressPackageStartupMessages(library(Signac))
+suppressPackageStartupMessages(library(MOJITOO))
+suppressPackageStartupMessages(library(ggsci))
 ```
 
 
@@ -134,7 +133,7 @@ data_track_bws <- list(
     "Platelets"                     = "bigwig/Platelets.bw",
     "pre-B cell"                    = "bigwig/pre-B_cell.bw"
 )
-library(rtracklayer)
+suppressPackageStartupMessages(library(rtracklayer))
 gene_model <- readGFF("genes.gtf")
 gene_model$chromosome <- gene_model$seqid
 gene_model$gene <- gene_model$gene_id
@@ -144,7 +143,6 @@ gene_model$exon <- gene_model$exon_id
 gene_model$width <- gene_model$end - gene_model$start + 1
 gene_model$feature <- gene_model$transcript_type
 gene_model <- subset(gene_model, !is.na(transcript) & !is.na(exon))
-gene_model <- NULL
 
 gtree <- ATACTrack(object,
                  CC = 1,
@@ -163,5 +161,10 @@ gtree <- ATACTrack(object,
                  )
 #grid::grid.newpage()
 grid::grid.draw(gtree)
+```
+
+### SessionInfo
+```{r}
+sessionInfo()
 ```
 

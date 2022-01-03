@@ -6,11 +6,12 @@
 #' @param Y nxq matrix
 #' @keywords CCA
 #' @importFrom fda geigen
+#' @importFrom Matrix rankMatrix
 #' @rdname CCA
 #' @export
 #' @examples
 #' CCA()
-CCA <- function(X, Y){
+CCA <- function(X, Y, xname, yname){
   if(nrow(X) != nrow(Y) ){
     stop("X & Y should share same row number")
   }
@@ -22,6 +23,19 @@ CCA <- function(X, Y){
   Cxx <- var(X, na.rm = TRUE, use = "pairwise")
   Cyy <- var(Y, na.rm = TRUE, use = "pairwise")
   Cxy <- cov(X, Y, use = "pairwise")
+
+  if(rankMatrix(Cxx)[1] != nrow(Cxx)){
+    message("Error:, useless dimension of ", xname, ". Please remove it according chol error message")
+    chol((Cxx+t(Cxx))/2)
+
+  }
+  if(rankMatrix(Cyy)[1]!= nrow(Cyy)){
+    message("Error:, useless dimension of ", yname, ". Please remove it according chol error message")
+    chol((Cyy+t(Cyy))/2)
+  }
+
+
+
   res <- geigen(Cxy, Cxx, Cyy) ## fda package
   names(res) <- c("cor", "xcoef", "ycoef")
 
@@ -39,3 +53,4 @@ CCA <- function(X, Y){
       Ynames = Ynames, ind.names = ind.names), xcoef = res$xcoef,
       ycoef = res$ycoef, scores = scores))
 }
+

@@ -59,7 +59,7 @@ mojitoo.Seurat <- function(
     }
     b_redu <- b_redu[, b_dims]
     message("adding ", reduction.list[[(i+1)]])
-    cca_ <- CCA(a_redu, b_redu)
+    cca_ <- CCA(a_redu, b_redu, xname=reduction.list[[i]], yname=reduction.list[[i+1]])
 
     a = NULL
     b = NULL
@@ -146,8 +146,9 @@ mojitoo.ArchRProject<- function(
     if(max(b_dims) > ncol(x=b_redu)){
       stop(sprintf("%s: more dimensions specified in dims than have been computed", reduction.list[[(i+1)]]))
     }
+    b_redu = b_redu[, b_dims]
     message("adding ", reduction.list[[(i+1)]])
-    cca_ <- CCA(a_redu, b_redu)
+    cca_ <- CCA(a_redu, b_redu, xname=reduction.list[[i]], yname=reduction.list[[i+1]])
 
     a = NULL
     b = NULL

@@ -4,7 +4,7 @@
 \alias{CCA}
 \title{CCA function}
 \usage{
-CCA(X, Y)
+CCA(X, Y, xname, yname)
 }
 \arguments{
 \item{X}{nxp matrix}

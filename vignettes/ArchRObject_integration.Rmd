@@ -1,0 +1,129 @@
+---
+title: "Using MOJITOO in R for ArchR"
+author: "Mingbo Cheng"
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output: html_document
+---
+
+### 1. download data
+```{bash, echo=FALSE}
+wget --no-verbose https://cf.10xgenomics.com/samples/cell-arc/1.0.0/pbmc_granulocyte_sorted_10k/pbmc_granulocyte_sorted_10k_atac_fragments.tsv.gz
+wget --no-verbose https://cf.10xgenomics.com/samples/cell-arc/1.0.0/pbmc_granulocyte_sorted_10k/pbmc_granulocyte_sorted_10k_atac_fragments.tsv.gz.tbi
+wget --no-verbose  https://www.dropbox.com/s/s2lwq3dsi7eyjga/PBMC-Multiom_annotation.tsv
+wget --no-verbose  https://cf.10xgenomics.com/samples/cell-arc/1.0.0/pbmc_granulocyte_sorted_10k/pbmc_granulocyte_sorted_10k_filtered_feature_bc_matrix.h5
+```
+
+### 2. library
+```{r}
+#install.packages("devtools")
+#devtools::install_github("CostaLab/MOJITOO", build_vignettes = TRUE)
+suppressPackageStartupMessages(library(MOJITOO))
+suppressPackageStartupMessages(library(ArchR))
+suppressPackageStartupMessages(library(Seurat))
+suppressPackageStartupMessages(library(ggsci))
+suppressPackageStartupMessages(library(stringr))
+suppressPackageStartupMessages(library(EnsDb.Hsapiens.v86))
+addArchRGenome("hg38")
+addArchRThreads(30)
+
+```
+
+
+### 3. Create ArchR proj
+```{r}
+inputFiles <- "pbmc_granulocyte_sorted_10k_atac_fragments.tsv.gz"
+ArrowFiles <- createArrowFiles(inputFiles = inputFiles,
+                               sampleNames = "pbmc",
+                               minTSS = 0, ##4
+                               filterFrags = 0, ## 1000
+                               addTileMat = T,
+                               addGeneScoreMat = F)
+ArrowFiles <- "pbmc.arrow"
+proj <- ArchRProject(ArrowFiles = ArrowFiles, outputDirectory = "PBMC", copyArrows = T)
+meta <- read.csv("PBMC-Multiom_annotation.tsv", sep="\t")
+
+rownames(meta) <- paste0("pbmc#", (meta$barcode))
+
+bc <- intersect(rownames(proj@cellColData), rownames(meta))
+meta <- meta[bc, ]
+proj <- proj[bc, ]
+proj <- setCellCol(proj, meta=meta)
+
+
+gene.coords <- genes(EnsDb.Hsapiens.v86, filter = ~ gene_biotype == "protein_coding")
+ucsc.levels <- stringr::str_replace(string=paste("chr",seqlevels(gene.coords),sep=""), pattern="chrMT", replacement="chrM")
+seqlevels(gene.coords) <- ucsc.levels
+genebody.coords <- keepStandardChromosomes(gene.coords, pruning.mode = 'coarse')
+
+mtxs <- Read10X_h5("pbmc_granulocyte_sorted_10k_filtered_feature_bc_matrix.h5")
+RNA <- mtxs[["Gene Expression"]]
+colnames(RNA) <- paste0("pbmc#", colnames(RNA))
+RNA <- RNA[, rownames(proj@cellColData)]
+
+inter_gene_name <- intersect(rownames(RNA), elementMetadata(genebody.coords)$gene_name)
+
+gtfMatch <- genebody.coords[na.omit(match(rownames(RNA), genebody.coords$gene_name))]
+names(gtfMatch) <- gtfMatch$gene_name
+
+
+seRNA <- SummarizedExperiment(
+  assays = SimpleList(counts=RNA[inter_gene_name, ]),
+  rowData = gtfMatch
+)
+proj <- addGeneExpressionMatrix(proj, seRNA)
+```
+
+
+### 4.  Add PeakSets and  RNA & ATAC dimension reductions
+```{r}
+proj <- addIterativeLSI(ArchRProj = proj,
+                        useMatrix = "TileMatrix",
+                        name = "IterativeLSI",
+                        iterations = 2,
+                        varFeatures = 25000,
+                        dimsToUse = 1:30)
+
+object <- CreateSeuratObject(counts=RNA, assay="RNA")
+object <-  NormalizeData(object, normalization.method = "LogNormalize", scale.factor = 10000, verbose=F)
+object <- FindVariableFeatures(object, nfeatures=3000, verbose=F)
+object <- ScaleData(object, verbose=F)
+object <-  RunPCA(object, npcs=50, reduction.name="RNA_PCA", verbose=F)
+
+proj <- setDimRed(proj, mtx=Embeddings(object[["RNA_PCA"]]), type="reducedDims", reduction.name="RNA_PCA")
+
+```
+
+
+### 5. RUN MOJITOO
+```{r}
+proj <- loadArchRProject("PBMC")
+proj <- mojitoo(
+     object=proj,
+     reduction.list = list("RNA_PCA", "IterativeLSI"),
+     dims.list = list(1:50, 1:29), ## exclude last dimension of LSI due to rank(IterativeLSI)==29
+     is.reduction.center=T,
+     is.reduction.scale=T,
+     reduction.name='MOJITOO'
+)
+proj <- addUMAP(
+    ArchRProj = proj,
+    reducedDims = "MOJITOO",
+    name = "MOJITOO_UMAP",
+    nNeighbors = 30,
+    minDist = 0.5,
+    metric = "cosine"
+)
+saveArchRProject(proj)
+```
+
+### 6. UMAP of True labels
+```{r}
+p <- plotEmbedding(ArchRProj = proj, colorBy = "cellColData", name = "annotation", embedding = "MOJITOO_UMAP")
+p
+```
+
+### 7. sessionInfo
+```{r}
+sessionInfo()
+```
+
