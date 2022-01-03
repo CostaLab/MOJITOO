@@ -15,7 +15,7 @@ library(MOJITOO)
 
 
 ### Seurat vignette R Markdown
-[ArchRObject_integration.Rmd](vignettes/SeuratObject_integration.Rmd)
+[SeuratObject_integration.Rmd](vignettes/SeuratObject_integration.Rmd)
 
 
 ### ArchR vignette R Markdown
