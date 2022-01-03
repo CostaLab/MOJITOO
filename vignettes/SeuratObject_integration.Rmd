@@ -12,7 +12,7 @@ wget --no-verbose  https://www.dropbox.com/s/s2lwq3dsi7eyjga/PBMC-Multiom_annota
 ```
 
 ### 2. library
-```{r}
+```{r library_loading }
 #install.packages("devtools")
 #devtools::install_github("CostaLab/MOJITOO", build_vignettes = TRUE)
 suppressPackageStartupMessages(library(Seurat))
@@ -23,7 +23,7 @@ suppressPackageStartupMessages(library(ggsci))
 
 
 ### 3. Create Seurat Object
-```{r}
+```{r SeuratObject}
 mtxs <- Read10X_h5("pbmc_granulocyte_sorted_10k_filtered_feature_bc_matrix.h5")
 RNA <- mtxs[["Gene Expression"]]
 ATAC <- mtxs[["Peaks"]]
@@ -36,7 +36,7 @@ RNA <- RNA[, meta$barcode]
 ATAC <- ATAC[, meta$barcode]
 rownames(meta) <- meta$barcode
 object <- CreateSeuratObject(counts=RNA, meta.data=meta, assay="RNA")
-object[["Peaks"]] <- CreateAssayObject(counts=ATAC, assay="Peaks")
+object[["Peaks"]] <- CreateAssayObject(counts=ATAC)
 object$celltype <- object$annotation
 rm(mtxs)
 rm(RNA)
@@ -44,14 +44,14 @@ rm(ATAC)
 gc()
 ```
 ### subset if need to save memory
-```{r}
+```{r subset}
 set.seed(1)
 object <- subset(object, cells=sample(colnames(object))[1:round(0.3*ncol(object))])
 ```
 
 
 ### 4.  RNA & ATAC dimension reductions
-```{r}
+```{r dimension_reudction}
 ## RNA pre-processing and PCA dimension reduction
 DefaultAssay(object) <- "RNA"
 object <-  NormalizeData(object, normalization.method = "LogNormalize", scale.factor = 10000, verbose=F)
@@ -67,7 +67,7 @@ object <- RunSVD(object, verbose=F)
 ```
 
 ### 5. RUN MOJITOO
-```{r}
+```{r MOJITOO}
 object <- mojitoo(
      object=object,
      reduction.list = list("RNA_PCA", "lsi"),
@@ -82,14 +82,14 @@ saveRDS(object, "seu.Rds")
 ```
 
 ### 6. UMAP of True labels
-```{r}
+```{r UMAPPlot}
 
-object <- readRDS("seu.Rds") ## 1/10 cells
+object <- readRDS("seu.Rds") ## 1/3 cells
 DimPlot(object, reduction = "MOJITOO_UMAP", group.by = "celltype", cols=ggsci::pal_igv()(30))
 ```
 
 ### 7. MOJITOO CCs
-```{r}
+```{r CCDimPlot}
 GeneCCDimPlot(object,
               CCsToPlot = 1:4,
               RNA.assay="RNA",
@@ -99,7 +99,7 @@ GeneCCDimPlot(object,
 ```
 
 ### Heatmap
-```{r}
+```{r CCHeatmap}
 GeneCCHeatmap(object,
                     CCsToPlot = 1:2,
                     RNA.assay="RNA",
@@ -113,7 +113,7 @@ GeneCCHeatmap(object,
 ```
 
 ### Tracks
-```{r}
+```{r CCTracks}
 #wget --no-verbose https://www.dropbox.com/s/ko75p2q5kimvzl7/genes.gtf.zip
 #unzip genes.gtf.zip
 #wget --no-verbose https://www.dropbox.com/s/nluhbbhm148nwt7/bigwig.zip
@@ -164,7 +164,7 @@ grid::grid.draw(gtree)
 ```
 
 ### SessionInfo
-```{r}
+```{r Sessioninfo}
 sessionInfo()
 ```
 

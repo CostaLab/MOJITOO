@@ -14,7 +14,7 @@ wget --no-verbose  https://cf.10xgenomics.com/samples/cell-arc/1.0.0/pbmc_granul
 ```
 
 ### 2. library
-```{r}
+```{r library}
 #install.packages("devtools")
 #devtools::install_github("CostaLab/MOJITOO", build_vignettes = TRUE)
 suppressPackageStartupMessages(library(MOJITOO))
@@ -30,7 +30,7 @@ addArchRThreads(30)
 
 
 ### 3. Create ArchR proj
-```{r}
+```{r ArchRProjectObject}
 inputFiles <- "pbmc_granulocyte_sorted_10k_atac_fragments.tsv.gz"
 ArrowFiles <- createArrowFiles(inputFiles = inputFiles,
                                sampleNames = "pbmc",
@@ -39,7 +39,7 @@ ArrowFiles <- createArrowFiles(inputFiles = inputFiles,
                                addTileMat = T,
                                addGeneScoreMat = F)
 ArrowFiles <- "pbmc.arrow"
-proj <- ArchRProject(ArrowFiles = ArrowFiles, outputDirectory = "PBMC", copyArrows = T)
+proj <- ArchRProject(ArrowFiles = ArrowFiles, outputDirectory = "PBMC", copyArrows = T, showLogo=F)
 meta <- read.csv("PBMC-Multiom_annotation.tsv", sep="\t")
 
 rownames(meta) <- paste0("pbmc#", (meta$barcode))
@@ -74,8 +74,8 @@ proj <- addGeneExpressionMatrix(proj, seRNA)
 ```
 
 
-### 4.  Add PeakSets and  RNA & ATAC dimension reductions
-```{r}
+### 4.  RNA & ATAC dimension reductions
+```{r DimensionReduction}
 proj <- addIterativeLSI(ArchRProj = proj,
                         useMatrix = "TileMatrix",
                         name = "IterativeLSI",
@@ -90,13 +90,13 @@ object <- ScaleData(object, verbose=F)
 object <-  RunPCA(object, npcs=50, reduction.name="RNA_PCA", verbose=F)
 
 proj <- setDimRed(proj, mtx=Embeddings(object[["RNA_PCA"]]), type="reducedDims", reduction.name="RNA_PCA")
-
+saveArchRProject(proj)
 ```
 
 
 ### 5. RUN MOJITOO
-```{r}
-proj <- loadArchRProject("PBMC")
+```{r MOJITOO}
+proj <- loadArchRProject("PBMC", showLogo=F)
 proj <- mojitoo(
      object=proj,
      reduction.list = list("RNA_PCA", "IterativeLSI"),
@@ -113,11 +113,10 @@ proj <- addUMAP(
     minDist = 0.5,
     metric = "cosine"
 )
-saveArchRProject(proj)
 ```
 
 ### 6. UMAP of True labels
-```{r}
+```{r UMAP}
 p <- plotEmbedding(ArchRProj = proj, colorBy = "cellColData", name = "annotation", embedding = "MOJITOO_UMAP")
 p
 ```
