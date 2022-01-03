@@ -7,7 +7,7 @@ Ivan G. Costa<sup>1*</sup>
 
 ```{r}
 install.packages("devtools")
-devtools::install_github("https://github.com/CostaLab/MOJITOO", build_vignettes = TRUE)
+devtools::install_github("CostaLab/MOJITOO", build_vignettes = TRUE)
 library(MOJITOO)
 ```
 
