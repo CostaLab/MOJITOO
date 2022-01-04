@@ -6,6 +6,7 @@
 #' @param Y nxq matrix
 #' @keywords CCA
 #' @importFrom fda geigen
+#' @importFrom corpcor make.positive.definite
 #' @importFrom Matrix rankMatrix
 #' @rdname CCA
 #' @export
@@ -25,15 +26,11 @@ CCA <- function(X, Y, xname, yname){
   Cxy <- cov(X, Y, use = "pairwise")
 
   if(rankMatrix(Cxx)[1] != nrow(Cxx)){
-    message("Error:, useless dimension of ", xname, ". Please remove it according chol error message")
-    chol((Cxx+t(Cxx))/2)
-
+    Cxx <- corpcor::make.positive.definite(Cxx)
   }
   if(rankMatrix(Cyy)[1]!= nrow(Cyy)){
-    message("Error:, useless dimension of ", yname, ". Please remove it according chol error message")
-    chol((Cyy+t(Cyy))/2)
+    Cyy <- corpcor::make.positive.definite(Cyy)
   }
-
 
 
   res <- geigen(Cxy, Cxx, Cyy) ## fda package

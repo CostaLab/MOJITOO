@@ -72,5 +72,4 @@ GeneCCHeatmap()
 GeneCCHeatmap()
 GeneCCHeatmap()
 }
-\keyword{GeneCCDimPlot}
 \keyword{GeneCCHeatmap}

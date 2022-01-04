@@ -101,7 +101,7 @@ proj <- loadArchRProject("PBMC", showLogo=F)
 proj <- mojitoo(
      object=proj,
      reduction.list = list("RNA_PCA", "IterativeLSI"),
-     dims.list = list(1:50, 1:29), ## exclude last dimension of LSI due to rank(IterativeLSI)==29
+     dims.list = list(1:50, 1:30),
      is.reduction.center=T,
      is.reduction.scale=T,
      reduction.name='MOJITOO'
