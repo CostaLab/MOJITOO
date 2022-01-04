@@ -1,11 +1,11 @@
 Package: MOJITOO
 Type: Package
-Title: What the Package Does in One 'Title Case' Line
+Title:  MOJITOO: (M)ulti-m(O)dal (J)oint (I)ntegra(T)ion of c(O)mp(O)nents
 Version: 1.0
 Date: 2021-10-17
-Author: Your Name
-Maintainer: Your Name <your@email.com>
-Description: One paragraph description of what the package does as one or more full sentences.
+Author: Mingbo Cheng
+Maintainer: Mingbo Cheng <chengmingbo@gmail.com>
+Description: Single cell simultaneous multi-modalities integration.
 Depends:
     R (>= 4.0.0),
     methods
