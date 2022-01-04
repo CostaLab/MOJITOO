@@ -14,7 +14,6 @@ Imports:
   Rcpp (>= 1.0.7),
   Seurat(>= 3.2.3),
   Signac(>= 1.0.0),
-  ArchR(>= 1.0.0),
   reticulate,
   S4Vectors,
   ramify,

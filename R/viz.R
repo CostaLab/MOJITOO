@@ -100,7 +100,7 @@ GeneCCHeatmap.Seurat <- function(object,
 #' @param reduction.list reduction list
 #' @param dims.list dims list
 #' @param reduction.name reduction name
-#' @keywords GeneCCDimPlot
+#' @keywords GeneCCHeatmap
 #' @importFrom ComplexHeatmap Heatmap HeatmapAnnotation
 #' @importFrom ArchR getReducedDims
 #' @importFrom dplyr `%>%`
@@ -267,25 +267,22 @@ GeneCCDimPlot.ArchRProject <- function(object,
                                  ...){
 
   assay <- paste0(MOJITOO.reduction, ".assay")
-  if(!(assay %in% Assays(object))){
-    message("adding MOJITOO assay...")
-    object <-  .addMojitooAssay.ArchRProject(object)
-  }
-  ArchRProject::DefaultAssay(object) <- assay
-  assertthat::assert_that(all(CCsToPlot %in% 1:ncol(object)))
-  mojitoo_counts <- ArchRProject::GetAssayData(object, slot="counts", assay=assay)
-  maxx_vec <- sapply(CCsToPlot, function(x) max(abs(mojitoo_counts[x,])))
+  object <-  .addMojitooAssay.ArchRProject(object)
+
+  embedd <- getDimRed(object, MOJITOO.reduction)
+  assertthat::assert_that(all(CCsToPlot %in% 1:ncol(embedd)))
+  maxx_vec <- sapply(CCsToPlot, function(x) max(abs(embedd[,x])))
 
   plist <- list()
   for(a_cc in CCsToPlot){
     maxx <- maxx_vec[a_cc]
-    px <- ArchRProject::plotEmbedding(object,
-                      feature=rownames(mojitoo_counts)[a_cc],
-                      reduction=umap,
-                      slot="counts",
-                      raster=raster,
-                      order=T,
-                      ...) + ggplot2::scale_colour_gradientn(colors=cols, limits = range(-maxx, maxx))
+    px <- ArchR::plotEmbedding(object,
+                                      name=paste0("MOJITOO", 1:ncol(embedd))[a_cc],
+                                      embedding=umap,
+                                      colorBy=assay,
+                                      rastr=raster,
+                                      ...) +
+              ggplot2::scale_colour_gradientn(colors=cols, limits = range(-maxx, maxx))
     plist[[as.character(a_cc)]] <- px
   }
   if(combine){

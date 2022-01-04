@@ -17,6 +17,7 @@ wget --no-verbose  https://cf.10xgenomics.com/samples/cell-arc/1.0.0/pbmc_granul
 ```{r library}
 #install.packages("devtools")
 #devtools::install_github("CostaLab/MOJITOO", build_vignettes = TRUE)
+#devtools::install_github("GreenleafLab/ArchR", ref="master", repos = BiocManager::repositories())
 suppressPackageStartupMessages(library(MOJITOO))
 suppressPackageStartupMessages(library(ArchR))
 suppressPackageStartupMessages(library(Seurat))
