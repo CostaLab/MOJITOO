@@ -87,6 +87,7 @@ saveRDS(object, "seu.Rds")
 object <- readRDS("seu.Rds") ## 1/3 cells
 DimPlot(object, reduction = "MOJITOO_UMAP", group.by = "celltype", cols=ggsci::pal_igv()(30))
 ```
+![UMAP](assets/PMBC_Multiome_subset/UMAP.png)
 
 ### 7. MOJITOO CCs
 ```{r CCDimPlot}
@@ -97,6 +98,8 @@ GeneCCDimPlot(object,
               MOJITOO.reduction="MOJITOO")
 
 ```
+
+![FeaturePlot](assets/PMBC_Multiome_subset/FeaturePlot.png)
 
 ### Heatmap
 ```{r CCHeatmap}
@@ -111,6 +114,9 @@ GeneCCHeatmap(object,
                     )
 
 ```
+
+![Heatmap1](assets/PMBC_Multiome_subset/Heatmap1.png)
+![Heatmap2](assets/PMBC_Multiome_subset/Heatmap2.png)
 
 ### Tracks
 ```{r CCTracks}
@@ -162,6 +168,7 @@ gtree <- ATACTrack(object,
 #grid::grid.newpage()
 grid::grid.draw(gtree)
 ```
+![tracks](assets/PMBC_Multiome_subset/Tracks.png)
 
 ### SessionInfo
 ```{r Sessioninfo}
