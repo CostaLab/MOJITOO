@@ -21,3 +21,7 @@ library(MOJITOO)
 
 ### ArchR vignette R Markdown
 [ArchRObject_integration.Rmd](vignettes/ArchRObject_integration.Rmd)
+
+
+### References:
+MOJITOO: a fast and universal method for integration of multimodal single cell data [preprint](https://www.biorxiv.org/content/10.1101/2022.01.19.476907v1)
