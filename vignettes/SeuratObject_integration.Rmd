@@ -13,8 +13,6 @@ wget --no-verbose  https://www.dropbox.com/s/s2lwq3dsi7eyjga/PBMC-Multiom_annota
 
 ### 2. library
 ```{r library_loading }
-#install.packages("devtools")
-#devtools::install_github("CostaLab/MOJITOO", build_vignettes = TRUE)
 suppressPackageStartupMessages(library(Seurat))
 suppressPackageStartupMessages(library(Signac))
 suppressPackageStartupMessages(library(MOJITOO))
