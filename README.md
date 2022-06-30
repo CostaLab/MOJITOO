@@ -13,7 +13,7 @@ devtools::install_github("CostaLab/MOJITOO", build_vignettes = TRUE)
 ```
 
 ### References:
-MOJITOO: a fast and universal method for integration of multimodal single cell data [preprint](https://www.biorxiv.org/content/10.1101/2022.01.19.476907v1)
+MOJITOO: a fast and universal method for integration of multimodal single cell data [link](https://doi.org/10.1093/bioinformatics/btac220)
 
 ### Code from MOJITOO Benchmarking
 
