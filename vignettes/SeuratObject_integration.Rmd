@@ -8,7 +8,7 @@ output: html_document
 ### 1. download data
 ```{bash, echo=FALSE}
 wget --no-verbose  https://cf.10xgenomics.com/samples/cell-arc/1.0.0/pbmc_granulocyte_sorted_10k/pbmc_granulocyte_sorted_10k_filtered_feature_bc_matrix.h5
-wget --no-verbose  https://www.dropbox.com/s/s2lwq3dsi7eyjga/PBMC-Multiom_annotation.tsv
+wget --no-check-certificate --no-verbose  https://costalab.ukaachen.de/open_data/MOJITOO/PBMC-Multiom_annotation.tsv
 ```
 
 ### 2. library
@@ -113,9 +113,9 @@ GeneCCHeatmap(object,
 
 ### Download track dependent data
 ```{bash, echo=FALSE}
-wget --no-verbose https://www.dropbox.com/s/ko75p2q5kimvzl7/genes.gtf.zip
+wget --no-check-certificate --no-verbose  https://costalab.ukaachen.de/open_data/MOJITOO/genes.gtf.zip
 unzip genes.gtf.zip
-wget --no-verbose https://www.dropbox.com/s/nluhbbhm148nwt7/bigwig.zip
+wget --no-check-certificate --no-verbose  https://costalab.ukaachen.de/open_data/MOJITOO/bigwig.zip
 unzip bigwig.zip
 ```
 
