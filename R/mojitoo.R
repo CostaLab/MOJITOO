@@ -124,7 +124,7 @@ mojitoo.ArchRProject<- function(
   if (length(reduction.list) != length(dims.list)){
     stop("inconsistent lengths of  reduction.list and dims.list !")
   }
-  if (!all(unlist(reduction.list) %in% names(proj@reducedDims))){
+  if (!all(unlist(reduction.list) %in% names(object@reducedDims))){
     stop("There's reduction not in object!")
   }
 
