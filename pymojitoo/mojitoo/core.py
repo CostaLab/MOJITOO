@@ -49,7 +49,8 @@ def mojitoo(adata: AnnData,
 
     if len(reduction_name) < 2:
         raise ValueError("At least 2 dimension names in reduction_list")
-
+    if dims_list is None:
+        dims_list = []
     if len(dims_list) !=0 and len(dims_list) !=len(reduction_name):
         raise ValueError("dims_list should be consistent with reduction_list")
 
