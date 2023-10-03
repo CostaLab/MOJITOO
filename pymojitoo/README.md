@@ -1,4 +1,4 @@
-# MOJITOO<img src="inst/figures/LOGO.png" align="right" width="120" />
+# MOJITOO<img src="../inst/figures/LOGO.png" align="right" width="120" />
 Mingbo Cheng<sup>1</sup>,
 Zhijian Li<sup>1</sup>,
 Ivan G. Costa<sup>1*</sup>
