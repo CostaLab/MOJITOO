@@ -16,6 +16,7 @@ mojitoo(object, ...)
   is.reduction.scale = F,
   fdr.method = "BH",
   corr.pval = 0.05,
+  keep_separated_reductions = F,
   ...
 )
 }
@@ -34,7 +35,9 @@ mojitoo(object, ...)
 
 \item{fdr.method}{fdr method, default BH}
 
-\item{correlation}{test 0.05}
+\item{corr.pval}{correlation test 0.05}
+
+\item{keep_separated_reductions}{bool if keep separated reductions}
 }
 \value{
 The object with mojitoo reduction

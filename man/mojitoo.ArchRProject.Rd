@@ -13,6 +13,7 @@
   is.reduction.scale = F,
   fdr.method = "BH",
   corr.pval = 0.05,
+  keep_separated_reductions = F,
   ...
 )
 }
@@ -24,6 +25,16 @@
 \item{dims.list}{dims vector list}
 
 \item{reduction.name}{reduction name}
+
+\item{is.reduction.center}{bool if center the reduction}
+
+\item{is.reduction.scale}{bool if scale the reduction}
+
+\item{fdr.method}{fdr method, default BH}
+
+\item{corr.pval}{correlation test 0.05}
+
+\item{keep_separated_reductions}{bool if keep separated reductions}
 }
 \description{
 This function allows you to integrate multi-omics dim-reductions

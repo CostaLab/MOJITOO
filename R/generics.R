@@ -8,6 +8,17 @@ mojitoo <- function(object, ...){
  UseMethod(generic = "mojitoo", object = object)
 }
 
+#' @return mojitoo reduction matrix or list if keep_separated_reductions is TRUE
+#' @param reduction_matrix.list A list of reduction matrices
+#' @param dims.list A list of dimensions to mojitoo
+#' @param keep_separated_reductions A boolean to keep separated reductions
+#' @rdname mojitoo_Matrix
+#' @export
+mojitoo_Matrix <- function(object, ...){
+ UseMethod(generic = "mojitoo_Matrix")
+}
+
+
 #' @return Dimension reduction
 #' @param object Seurat or ArchR object
 #' @rdname getDimRed

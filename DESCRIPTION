@@ -1,6 +1,6 @@
 Package: MOJITOO
 Type: Package
-Title:  MOJITOO: (M)ulti-m(O)dal (J)oint (I)ntegra(T)ion of c(O)mp(O)nents
+Title: MOJITOO: (M)ulti-m(O)dal (J)oint (I)ntegra(T)ion of c(O)mp(O)nents
 Version: 1.0
 Date: 2021-10-17
 Author: Mingbo Cheng
@@ -34,5 +34,5 @@ Imports:
   fda,
   assertthat
 LinkingTo: Rcpp, RcppEigen, RcppProgress
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Encoding: UTF-8
