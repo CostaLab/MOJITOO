@@ -1,8 +1,8 @@
-pandoc: '2.18'
+pandoc: 2.19.2
 pkgdown: 2.0.3
 pkgdown_sha: ~
 articles:
   ArchRObject_integration: ArchRObject_integration.html
   SeuratObject_integration: SeuratObject_integration.html
-last_built: 2022-05-02T14:59Z
+last_built: 2024-10-14T11:37Z
 
