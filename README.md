@@ -7,10 +7,16 @@ Ivan G. Costa<sup>1*</sup>
 <sup>1</sup>Institute for Computational Genomics, Faculty of Medicine, RWTH Aachen University, Aachen, 52074 Germany
 
 ### Installation
+
+##### Default R version
 ```{r}
 install.packages("devtools")
 devtools::install_github("CostaLab/MOJITOO", build_vignettes = TRUE)
 ```
+
+##### Python version alternative
+
+We have implemented a simple python version, please check out the installation detail at [pymojitoo](https://github.com/CostaLab/MOJITOO/tree/main/pymojitoo).
 
 ### References:
 MOJITOO: a fast and universal method for integration of multimodal single cell data [link](https://doi.org/10.1093/bioinformatics/btac220)
