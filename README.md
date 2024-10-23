@@ -25,6 +25,22 @@ The MOJITOO integration using `Seurat` can be found at [seurat](https://costalab
 ### References:
 MOJITOO: a fast and universal method for integration of multimodal single cell data [link](https://doi.org/10.1093/bioinformatics/btac220)
 
+citation:
+
+```bibtex
+@article{cheng2022mojitoo,
+  title={MOJITOO: a fast and universal method for integration of multimodal single-cell data},
+  author={Cheng, Mingbo and Li, Zhijian and Costa, Ivan G},
+  journal={Bioinformatics},
+  volume={38},
+  number={Supplement\_1},
+  pages={i282--i289},
+  year={2022},
+  publisher={Oxford University Press}
+}
+```
+
+
 ### Code from MOJITOO Benchmarking
 
 https://github.com/CostaLab/MOJITOO-reproducibility.git
