@@ -14,6 +14,7 @@ setup(
                       'statsmodels',
                       'scanpy',
                       'anndata',
+                      'mudata',
                       ],
     classifiers=[
         'Development Status :: 1 - Planning',
