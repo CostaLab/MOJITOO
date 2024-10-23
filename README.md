@@ -18,6 +18,10 @@ devtools::install_github("CostaLab/MOJITOO", build_vignettes = TRUE)
 
 We have implemented a simple python version, please check out the installation detail at [pymojitoo](https://github.com/CostaLab/MOJITOO/tree/main/pymojitoo).
 
+### Howto
+The MOJITOO integration using `Seurat` can be found at [seurat](https://costalab.github.io/MOJITOO/articles/SeuratObject_integration.html). `ArchR` example of integration is [ArchR](https://costalab.github.io/MOJITOO/articles/ArchRObject_integration.html). Integration using `R matrix` example can be found [Matrix](https://costalab.github.io/MOJITOO/articles/Matrix_integration.html).
+
+
 ### References:
 MOJITOO: a fast and universal method for integration of multimodal single cell data [link](https://doi.org/10.1093/bioinformatics/btac220)
 
