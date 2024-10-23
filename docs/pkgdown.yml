@@ -3,6 +3,7 @@ pkgdown: 2.0.3
 pkgdown_sha: ~
 articles:
   ArchRObject_integration: ArchRObject_integration.html
+  Matrix_integration: Matrix_integration.html
   SeuratObject_integration: SeuratObject_integration.html
-last_built: 2024-10-14T11:37Z
+last_built: 2024-10-23T10:16Z
 

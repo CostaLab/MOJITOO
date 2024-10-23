@@ -49,6 +49,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/ArchRObject_integration.html">Using MOJITOO in R for ArchR</a>
+    <a class="dropdown-item" href="../articles/Matrix_integration.html">Using MOJITOO in R for Matrix input</a>
     <a class="dropdown-item" href="../articles/SeuratObject_integration.html">Using MOJITOO in R for Seurat</a>
   </div>
 </li>
@@ -73,7 +74,7 @@
                         <h4 data-toc-skip class="author">Mingbo
 Cheng</h4>
             
-            <h4 data-toc-skip class="date">October 14, 2024</h4>
+            <h4 data-toc-skip class="date">October 23, 2024</h4>
       
       
       <div class="d-none name"><code>ArchRObject_integration.Rmd</code></div>
@@ -84,12 +85,12 @@ Cheng</h4>
 <div class="section level3">
 <h3 id="download-data">1. download data<a class="anchor" aria-label="anchor" href="#download-data"></a>
 </h3>
-<pre><code><span class="co">## 2024-10-14 13:38:58 URL:https://cf.10xgenomics.com/samples/cell-arc/1.0.0/pbmc_granulocyte_sorted_10k/pbmc_granulocyte_sorted_10k_atac_fragments.tsv.gz [2051027831/2051027831] -&gt; "pbmc_granulocyte_sorted_10k_atac_fragments.tsv.gz.1" [1]</span>
-<span class="co">## 2024-10-14 13:38:58 URL:https://cf.10xgenomics.com/samples/cell-arc/1.0.0/pbmc_granulocyte_sorted_10k/pbmc_granulocyte_sorted_10k_atac_fragments.tsv.gz.tbi [1027204/1027204] -&gt; "pbmc_granulocyte_sorted_10k_atac_fragments.tsv.gz.tbi.1" [1]</span>
+<pre><code><span class="co">## 2024-10-23 12:17:16 URL:https://cf.10xgenomics.com/samples/cell-arc/1.0.0/pbmc_granulocyte_sorted_10k/pbmc_granulocyte_sorted_10k_atac_fragments.tsv.gz [2051027831/2051027831] -&gt; "pbmc_granulocyte_sorted_10k_atac_fragments.tsv.gz" [1]</span>
+<span class="co">## 2024-10-23 12:17:16 URL:https://cf.10xgenomics.com/samples/cell-arc/1.0.0/pbmc_granulocyte_sorted_10k/pbmc_granulocyte_sorted_10k_atac_fragments.tsv.gz.tbi [1027204/1027204] -&gt; "pbmc_granulocyte_sorted_10k_atac_fragments.tsv.gz.tbi" [1]</span>
 <span class="co">## WARNING: cannot verify costalab.ukaachen.de's certificate, issued by ‘CN=GEANT OV RSA CA 4,O=GEANT Vereniging,C=NL’:</span>
 <span class="co">##   Unable to locally verify the issuer's authority.</span>
-<span class="co">## 2024-10-14 13:38:58 URL:https://costalab.ukaachen.de/open_data/MOJITOO/PBMC-Multiom_annotation.tsv [400178/400178] -&gt; "PBMC-Multiom_annotation.tsv.2" [1]</span>
-<span class="co">## 2024-10-14 13:39:01 URL:https://cf.10xgenomics.com/samples/cell-arc/1.0.0/pbmc_granulocyte_sorted_10k/pbmc_granulocyte_sorted_10k_filtered_feature_bc_matrix.h5 [162282142/162282142] -&gt; "pbmc_granulocyte_sorted_10k_filtered_feature_bc_matrix.h5.2" [1]</span></code></pre>
+<span class="co">## 2024-10-23 12:17:16 URL:https://costalab.ukaachen.de/open_data/MOJITOO/PBMC-Multiom_annotation.tsv [400178/400178] -&gt; "PBMC-Multiom_annotation.tsv" [1]</span>
+<span class="co">## 2024-10-23 12:17:18 URL:https://cf.10xgenomics.com/samples/cell-arc/1.0.0/pbmc_granulocyte_sorted_10k/pbmc_granulocyte_sorted_10k_filtered_feature_bc_matrix.h5 [162282142/162282142] -&gt; "pbmc_granulocyte_sorted_10k_filtered_feature_bc_matrix.h5" [1]</span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="library">2. library<a class="anchor" aria-label="anchor" href="#library"></a>
@@ -137,14 +138,28 @@ Cheng</h4>
 <span class="co">## Using GeneAnnotation set by addArchRGenome(Hg38)!</span></code></pre>
 <pre><code><span class="co">## Warning: package 'Biostrings' was built under R version 4.1.3</span></code></pre>
 <pre><code><span class="co">## Warning: package 'XVector' was built under R version 4.1.3</span></code></pre>
-<pre><code><span class="co">## ArchR logging to : ArchRLogs/ArchR-createArrows-64c56455454be-Date-2024-10-14_Time-13-39-24.log</span>
+<pre><code><span class="co">## ArchR logging to : ArchRLogs/ArchR-createArrows-fa26e1254d494-Date-2024-10-23_Time-12-17-47.log</span>
 <span class="co">## If there is an issue, please report to github with logFile!</span></code></pre>
 <pre><code><span class="co">## Cleaning Temporary Files</span></code></pre>
-<pre><code><span class="co">## 2024-10-14 13:39:25 : Batch Execution w/ safelapply!, 0 mins elapsed.</span></code></pre>
-<pre><code><span class="co">## (pbmc : 1 of 1) Checking if completed file exists!</span></code></pre>
-<pre><code><span class="co">## 2024-10-14 13:39:25 : (pbmc : 1 of 1) Arrow Exists! Marking as completed since force = FALSE!, 0.001 mins elapsed.</span></code></pre>
-<pre><code><span class="co">## ArchR logging successful to : ArchRLogs/ArchR-createArrows-64c56455454be-Date-2024-10-14_Time-13-39-24.log</span></code></pre>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<pre><code><span class="co">## 2024-10-23 12:17:47 : Batch Execution w/ safelapply!, 0 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## (pbmc : 1 of 1) Determining Arrow Method to use!</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:17:47 : (pbmc : 1 of 1) Reading In Fragments from inputFiles (readMethod = tabix), 0.001 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:17:47 : (pbmc : 1 of 1) Tabix Bed To Temporary File, 0.001 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:18:57 : (pbmc : 1 of 1) Successful creation of Temporary File, 1.174 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:18:57 : (pbmc : 1 of 1) Creating ArrowFile From Temporary File, 1.174 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:20:04 : (pbmc : 1 of 1) Successful creation of Arrow File, 2.296 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## Warning: package 'gridExtra' was built under R version 4.1.3</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:21:21 : (pbmc : 1 of 1) CellStats : Number of Cells Pass Filter = 639351 , 3.578 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:21:21 : (pbmc : 1 of 1) CellStats : Median Frags = 5 , 3.578 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:21:21 : (pbmc : 1 of 1) CellStats : Median TSS Enrichment = 0.099 , 3.579 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:21:50 : (pbmc : 1 of 1) Adding Additional Feature Counts!, 4.055 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:22:15 : (pbmc : 1 of 1) Removing Fragments from Filtered Cells, 4.474 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:22:15 : (pbmc : 1 of 1) Creating Filtered Arrow File, 4.474 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:23:23 : (pbmc : 1 of 1) Finished Constructing Filtered Arrow File!, 5.606 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:23:26 : (pbmc : 1 of 1) Adding TileMatrix!, 5.653 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:26:27 : (pbmc : 1 of 1) Finished Creating Arrow File, 8.678 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## ArchR logging successful to : ArchRLogs/ArchR-createArrows-fa26e1254d494-Date-2024-10-23_Time-12-17-47.log</span></code></pre>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ArrowFiles</span> <span class="op">&lt;-</span> <span class="st">"pbmc.arrow"</span>
 <span class="va">proj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ArchR/man/ArchRProject.html" class="external-link">ArchRProject</a></span><span class="op">(</span>ArrowFiles <span class="op">=</span> <span class="va">ArrowFiles</span>, outputDirectory <span class="op">=</span> <span class="st">"PBMC"</span>, copyArrows <span class="op">=</span> <span class="cn">T</span>, showLogo<span class="op">=</span><span class="cn">F</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## Using GeneAnnotation set by addArchRGenome(Hg38)!</span></code></pre>
@@ -158,7 +173,7 @@ Cheng</h4>
 <span class="co">## 1 </span>
 <span class="co">## Merging Cell Metadata...</span>
 <span class="co">## Initializing ArchRProject...</span></code></pre>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"PBMC-Multiom_annotation.tsv"</span>, sep<span class="op">=</span><span class="st">"\t"</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">meta</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"pbmc#"</span>, <span class="op">(</span><span class="va">meta</span><span class="op">$</span><span class="va">barcode</span><span class="op">)</span><span class="op">)</span>
@@ -176,7 +191,7 @@ Cheng</h4>
 
 <span class="va">mtxs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/Read10X_h5.html" class="external-link">Read10X_h5</a></span><span class="op">(</span><span class="st">"pbmc_granulocyte_sorted_10k_filtered_feature_bc_matrix.h5"</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## Genome matrix has multiple modalities, returning a list of matrices for this genome</span></code></pre>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">RNA</span> <span class="op">&lt;-</span> <span class="va">mtxs</span><span class="op">[[</span><span class="st">"Gene Expression"</span><span class="op">]</span><span class="op">]</span>
 <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">RNA</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"pbmc#"</span>, <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">RNA</span><span class="op">)</span><span class="op">)</span>
 <span class="va">RNA</span> <span class="op">&lt;-</span> <span class="va">RNA</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">proj</span><span class="op">@</span><span class="va">cellColData</span><span class="op">)</span><span class="op">]</span>
@@ -192,42 +207,42 @@ Cheng</h4>
   rowData <span class="op">=</span> <span class="va">gtfMatch</span>
 <span class="op">)</span>
 <span class="va">proj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ArchR/man/addGeneExpressionMatrix.html" class="external-link">addGeneExpressionMatrix</a></span><span class="op">(</span><span class="va">proj</span>, <span class="va">seRNA</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## ArchR logging to : ArchRLogs/ArchR-addGeneExpressionMatrix-64c566e6b3ac3-Date-2024-10-14_Time-13-40-02.log</span>
+<pre><code><span class="co">## ArchR logging to : ArchRLogs/ArchR-addGeneExpressionMatrix-fa26e74ac0a62-Date-2024-10-23_Time-12-26-57.log</span>
 <span class="co">## If there is an issue, please report to github with logFile!</span>
 <span class="co">## Overlap w/ scATAC = 1</span>
-<span class="co">## 2024-10-14 13:40:02 : </span>
+<span class="co">## 2024-10-23 12:26:58 : </span>
 <span class="co">## Overlap Per Sample w/ scATAC : pbmc=11763</span>
-<span class="co">## 2024-10-14 13:40:03 : </span>
-<span class="co">## 2024-10-14 13:40:06 : Batch Execution w/ safelapply!, 0 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:40:08 : Adding pbmc to GeneExpressionMatrix for Chr (1 of 23)!, 0.036 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:40:11 : Adding pbmc to GeneExpressionMatrix for Chr (2 of 23)!, 0.082 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:40:13 : Adding pbmc to GeneExpressionMatrix for Chr (3 of 23)!, 0.123 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:40:16 : Adding pbmc to GeneExpressionMatrix for Chr (4 of 23)!, 0.173 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:40:18 : Adding pbmc to GeneExpressionMatrix for Chr (5 of 23)!, 0.207 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:40:20 : Adding pbmc to GeneExpressionMatrix for Chr (6 of 23)!, 0.244 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:40:24 : Adding pbmc to GeneExpressionMatrix for Chr (7 of 23)!, 0.302 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:40:26 : Adding pbmc to GeneExpressionMatrix for Chr (8 of 23)!, 0.336 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:40:28 : Adding pbmc to GeneExpressionMatrix for Chr (9 of 23)!, 0.371 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:40:31 : Adding pbmc to GeneExpressionMatrix for Chr (10 of 23)!, 0.422 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:40:33 : Adding pbmc to GeneExpressionMatrix for Chr (11 of 23)!, 0.455 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:40:35 : Adding pbmc to GeneExpressionMatrix for Chr (12 of 23)!, 0.489 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:40:38 : Adding pbmc to GeneExpressionMatrix for Chr (13 of 23)!, 0.537 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:40:40 : Adding pbmc to GeneExpressionMatrix for Chr (14 of 23)!, 0.569 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:40:42 : Adding pbmc to GeneExpressionMatrix for Chr (15 of 23)!, 0.602 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:40:45 : Adding pbmc to GeneExpressionMatrix for Chr (16 of 23)!, 0.649 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:40:46 : Adding pbmc to GeneExpressionMatrix for Chr (17 of 23)!, 0.681 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:40:48 : Adding pbmc to GeneExpressionMatrix for Chr (18 of 23)!, 0.714 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:40:51 : Adding pbmc to GeneExpressionMatrix for Chr (19 of 23)!, 0.761 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:40:53 : Adding pbmc to GeneExpressionMatrix for Chr (20 of 23)!, 0.796 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:40:55 : Adding pbmc to GeneExpressionMatrix for Chr (21 of 23)!, 0.828 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:40:58 : Adding pbmc to GeneExpressionMatrix for Chr (22 of 23)!, 0.875 mins elapsed.</span>
-<span class="co">## 2024-10-14 13:41:00 : Adding pbmc to GeneExpressionMatrix for Chr (23 of 23)!, 0.907 mins elapsed.</span>
-<span class="co">## ArchR logging successful to : ArchRLogs/ArchR-addGeneExpressionMatrix-64c566e6b3ac3-Date-2024-10-14_Time-13-40-02.log</span></code></pre>
+<span class="co">## 2024-10-23 12:26:58 : </span>
+<span class="co">## 2024-10-23 12:27:00 : Batch Execution w/ safelapply!, 0 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:02 : Adding pbmc to GeneExpressionMatrix for Chr (1 of 23)!, 0.029 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:05 : Adding pbmc to GeneExpressionMatrix for Chr (2 of 23)!, 0.07 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:07 : Adding pbmc to GeneExpressionMatrix for Chr (3 of 23)!, 0.108 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:10 : Adding pbmc to GeneExpressionMatrix for Chr (4 of 23)!, 0.161 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:12 : Adding pbmc to GeneExpressionMatrix for Chr (5 of 23)!, 0.197 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:14 : Adding pbmc to GeneExpressionMatrix for Chr (6 of 23)!, 0.233 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:17 : Adding pbmc to GeneExpressionMatrix for Chr (7 of 23)!, 0.286 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:20 : Adding pbmc to GeneExpressionMatrix for Chr (8 of 23)!, 0.322 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:22 : Adding pbmc to GeneExpressionMatrix for Chr (9 of 23)!, 0.358 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:25 : Adding pbmc to GeneExpressionMatrix for Chr (10 of 23)!, 0.41 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:27 : Adding pbmc to GeneExpressionMatrix for Chr (11 of 23)!, 0.446 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:29 : Adding pbmc to GeneExpressionMatrix for Chr (12 of 23)!, 0.483 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:32 : Adding pbmc to GeneExpressionMatrix for Chr (13 of 23)!, 0.535 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:35 : Adding pbmc to GeneExpressionMatrix for Chr (14 of 23)!, 0.57 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:37 : Adding pbmc to GeneExpressionMatrix for Chr (15 of 23)!, 0.606 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:40 : Adding pbmc to GeneExpressionMatrix for Chr (16 of 23)!, 0.658 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:42 : Adding pbmc to GeneExpressionMatrix for Chr (17 of 23)!, 0.694 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:44 : Adding pbmc to GeneExpressionMatrix for Chr (18 of 23)!, 0.731 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:47 : Adding pbmc to GeneExpressionMatrix for Chr (19 of 23)!, 0.782 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:49 : Adding pbmc to GeneExpressionMatrix for Chr (20 of 23)!, 0.819 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:52 : Adding pbmc to GeneExpressionMatrix for Chr (21 of 23)!, 0.855 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:55 : Adding pbmc to GeneExpressionMatrix for Chr (22 of 23)!, 0.905 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:27:57 : Adding pbmc to GeneExpressionMatrix for Chr (23 of 23)!, 0.941 mins elapsed.</span>
+<span class="co">## ArchR logging successful to : ArchRLogs/ArchR-addGeneExpressionMatrix-fa26e74ac0a62-Date-2024-10-23_Time-12-26-57.log</span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="rna-atac-dimension-reductions">4. RNA &amp; ATAC dimension reductions<a class="anchor" aria-label="anchor" href="#rna-atac-dimension-reductions"></a>
 </h3>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">proj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ArchR/man/addIterativeLSI.html" class="external-link">addIterativeLSI</a></span><span class="op">(</span>ArchRProj <span class="op">=</span> <span class="va">proj</span>,
                         useMatrix <span class="op">=</span> <span class="st">"TileMatrix"</span>,
                         name <span class="op">=</span> <span class="st">"IterativeLSI"</span>,
@@ -235,29 +250,28 @@ Cheng</h4>
                         varFeatures <span class="op">=</span> <span class="fl">25000</span>,
                         dimsToUse <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">30</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## Checking Inputs...</span></code></pre>
-<pre><code><span class="co">## ArchR logging to : ArchRLogs/ArchR-addIterativeLSI-64c5666b7ebc9-Date-2024-10-14_Time-13-41-04.log</span>
+<pre><code><span class="co">## ArchR logging to : ArchRLogs/ArchR-addIterativeLSI-fa26e48c33538-Date-2024-10-23_Time-12-28-01.log</span>
 <span class="co">## If there is an issue, please report to github with logFile!</span></code></pre>
-<pre><code><span class="co">## 2024-10-14 13:41:04 : Computing Total Across All Features, 0 mins elapsed.</span></code></pre>
-<pre><code><span class="co">## 2024-10-14 13:41:05 : Computing Top Features, 0.021 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:28:01 : Computing Total Across All Features, 0 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:28:02 : Computing Top Features, 0.016 mins elapsed.</span></code></pre>
 <pre><code><span class="co">## ###########</span>
-<span class="co">## 2024-10-14 13:41:07 : Running LSI (1 of 2) on Top Features, 0.052 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:28:04 : Running LSI (1 of 2) on Top Features, 0.046 mins elapsed.</span>
 <span class="co">## ###########</span></code></pre>
-<pre><code><span class="co">## 2024-10-14 13:41:07 : Sampling Cells (N = 10000) for Estimated LSI, 0.053 mins elapsed.</span></code></pre>
-<pre><code><span class="co">## 2024-10-14 13:41:07 : Creating Sampled Partial Matrix, 0.053 mins elapsed.</span></code></pre>
-<pre><code><span class="co">## 2024-10-14 13:41:40 : Computing Estimated LSI (projectAll = FALSE), 0.593 mins elapsed.</span></code></pre>
-<pre><code><span class="co">## 2024-10-14 13:43:00 : Identifying Clusters, 1.927 mins elapsed.</span></code></pre>
-<pre><code><span class="co">## 2024-10-14 13:43:14 : Identified 6 Clusters, 2.169 mins elapsed.</span></code></pre>
-<pre><code><span class="co">## 2024-10-14 13:43:14 : Saving LSI Iteration, 2.169 mins elapsed.</span></code></pre>
-<pre><code><span class="co">## Warning: package 'gridExtra' was built under R version 4.1.3</span></code></pre>
-<pre><code><span class="co">## 2024-10-14 13:43:28 : Creating Cluster Matrix on the total Group Features, 2.406 mins elapsed.</span></code></pre>
-<pre><code><span class="co">## 2024-10-14 13:43:44 : Computing Variable Features, 2.66 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:28:04 : Sampling Cells (N = 10000) for Estimated LSI, 0.047 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:28:04 : Creating Sampled Partial Matrix, 0.047 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:28:33 : Computing Estimated LSI (projectAll = FALSE), 0.523 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:29:47 : Identifying Clusters, 1.772 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:30:02 : Identified 6 Clusters, 2.016 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:30:02 : Saving LSI Iteration, 2.016 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:30:16 : Creating Cluster Matrix on the total Group Features, 2.247 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:30:30 : Computing Variable Features, 2.474 mins elapsed.</span></code></pre>
 <pre><code><span class="co">## ###########</span>
-<span class="co">## 2024-10-14 13:43:44 : Running LSI (2 of 2) on Variable Features, 2.663 mins elapsed.</span>
+<span class="co">## 2024-10-23 12:30:30 : Running LSI (2 of 2) on Variable Features, 2.477 mins elapsed.</span>
 <span class="co">## ###########</span></code></pre>
-<pre><code><span class="co">## 2024-10-14 13:43:44 : Creating Partial Matrix, 2.663 mins elapsed.</span></code></pre>
-<pre><code><span class="co">## 2024-10-14 13:44:15 : Computing LSI, 3.188 mins elapsed.</span></code></pre>
-<pre><code><span class="co">## 2024-10-14 13:44:41 : Finished Running IterativeLSI, 3.612 mins elapsed.</span></code></pre>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<pre><code><span class="co">## 2024-10-23 12:30:30 : Creating Partial Matrix, 2.477 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:30:59 : Computing LSI, 2.964 mins elapsed.</span></code></pre>
+<pre><code><span class="co">## 2024-10-23 12:31:22 : Finished Running IterativeLSI, 3.345 mins elapsed.</span></code></pre>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/CreateSeuratObject.html" class="external-link">CreateSeuratObject</a></span><span class="op">(</span>counts<span class="op">=</span><span class="va">RNA</span>, assay<span class="op">=</span><span class="st">"RNA"</span><span class="op">)</span>
 <span class="va">object</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://satijalab.org/seurat/reference/NormalizeData.html" class="external-link">NormalizeData</a></span><span class="op">(</span><span class="va">object</span>, normalization.method <span class="op">=</span> <span class="st">"LogNormalize"</span>, scale.factor <span class="op">=</span> <span class="fl">10000</span>, verbose<span class="op">=</span><span class="cn">F</span><span class="op">)</span>
 <span class="va">object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindVariableFeatures.html" class="external-link">FindVariableFeatures</a></span><span class="op">(</span><span class="va">object</span>, nfeatures<span class="op">=</span><span class="fl">3000</span>, verbose<span class="op">=</span><span class="cn">F</span><span class="op">)</span>
@@ -313,10 +327,10 @@ Cheng</h4>
 <div class="section level3">
 <h3 id="run-mojitoo">5. RUN MOJITOO<a class="anchor" aria-label="anchor" href="#run-mojitoo"></a>
 </h3>
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">proj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ArchR/man/loadArchRProject.html" class="external-link">loadArchRProject</a></span><span class="op">(</span><span class="st">"PBMC"</span>, showLogo<span class="op">=</span><span class="cn">F</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## Successfully loaded ArchRProject!</span></code></pre>
-<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">proj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mojitoo.html">mojitoo</a></span><span class="op">(</span>
      object<span class="op">=</span><span class="va">proj</span>,
      reduction.list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"RNA_PCA"</span>, <span class="st">"IterativeLSI"</span><span class="op">)</span>,
@@ -328,7 +342,7 @@ Cheng</h4>
 <pre><code><span class="co">## processing RNA_PCA</span></code></pre>
 <pre><code><span class="co">## adding IterativeLSI</span></code></pre>
 <pre><code><span class="co">## 1 round cc 29</span></code></pre>
-<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">proj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ArchR/man/addUMAP.html" class="external-link">addUMAP</a></span><span class="op">(</span>
     ArchRProj <span class="op">=</span> <span class="va">proj</span>,
     reducedDims <span class="op">=</span> <span class="st">"MOJITOO"</span>,
@@ -337,45 +351,45 @@ Cheng</h4>
     minDist <span class="op">=</span> <span class="fl">0.5</span>,
     metric <span class="op">=</span> <span class="st">"cosine"</span>
 <span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## 13:45:06 UMAP embedding parameters a = 0.583 b = 1.334</span></code></pre>
-<pre><code><span class="co">## 13:45:06 Read 11763 rows and found 29 numeric columns</span></code></pre>
-<pre><code><span class="co">## 13:45:06 Using Annoy for neighbor search, n_neighbors = 30</span></code></pre>
-<pre><code><span class="co">## 13:45:06 Building Annoy index with metric = cosine, n_trees = 50</span></code></pre>
+<pre><code><span class="co">## 12:31:47 UMAP embedding parameters a = 0.583 b = 1.334</span></code></pre>
+<pre><code><span class="co">## 12:31:47 Read 11763 rows and found 29 numeric columns</span></code></pre>
+<pre><code><span class="co">## 12:31:47 Using Annoy for neighbor search, n_neighbors = 30</span></code></pre>
+<pre><code><span class="co">## 12:31:47 Building Annoy index with metric = cosine, n_trees = 50</span></code></pre>
 <pre><code><span class="co">## 0%   10   20   30   40   50   60   70   80   90   100%</span></code></pre>
 <pre><code><span class="co">## [----|----|----|----|----|----|----|----|----|----|</span></code></pre>
 <pre><code><span class="co">## **************************************************|</span>
-<span class="co">## 13:45:07 Writing NN index file to temp file /tmp/RtmpsO0cMP/file64c56794c8ee9</span>
-<span class="co">## 13:45:07 Searching Annoy index using 64 threads, search_k = 3000</span>
-<span class="co">## 13:45:07 Annoy recall = 100%</span>
-<span class="co">## 13:45:09 Commencing smooth kNN distance calibration using 64 threads with target n_neighbors = 30</span>
-<span class="co">## 13:45:10 Initializing from normalized Laplacian + noise (using irlba)</span>
-<span class="co">## 13:45:10 Commencing optimization for 200 epochs, with 461100 positive edges</span>
-<span class="co">## 13:45:16 Optimization finished</span>
-<span class="co">## 13:45:16 Creating temp model dir /tmp/RtmpsO0cMP/dir64c56710baa3b</span>
-<span class="co">## 13:45:16 Creating dir /tmp/RtmpsO0cMP/dir64c56710baa3b</span>
-<span class="co">## 13:45:17 Changing to /tmp/RtmpsO0cMP/dir64c56710baa3b</span>
-<span class="co">## 13:45:17 Creating /data/sz753404/git_code/MOJITOO/vignettes/PBMC/Embeddings/Save-Uwot-UMAP-Params-MOJITOO-64c5632799d05-Date-2024-10-14_Time-13-45-16.tar</span></code></pre>
+<span class="co">## 12:31:48 Writing NN index file to temp file /tmp/Rtmpbwz0TN/filefa26e6f841aa7</span>
+<span class="co">## 12:31:48 Searching Annoy index using 64 threads, search_k = 3000</span>
+<span class="co">## 12:31:48 Annoy recall = 100%</span>
+<span class="co">## 12:31:49 Commencing smooth kNN distance calibration using 64 threads with target n_neighbors = 30</span>
+<span class="co">## 12:31:51 Initializing from normalized Laplacian + noise (using irlba)</span>
+<span class="co">## 12:31:51 Commencing optimization for 200 epochs, with 461100 positive edges</span>
+<span class="co">## 12:31:57 Optimization finished</span>
+<span class="co">## 12:31:57 Creating temp model dir /tmp/Rtmpbwz0TN/dirfa26e2260917e</span>
+<span class="co">## 12:31:57 Creating dir /tmp/Rtmpbwz0TN/dirfa26e2260917e</span>
+<span class="co">## 12:31:58 Changing to /tmp/Rtmpbwz0TN/dirfa26e2260917e</span>
+<span class="co">## 12:31:58 Creating /data/sz753404/git_code/MOJITOO/vignettes/PBMC/Embeddings/Save-Uwot-UMAP-Params-MOJITOO-fa26e2cf20242-Date-2024-10-23_Time-12-31-57.tar</span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="umap-of-true-labels">6. UMAP of True labels<a class="anchor" aria-label="anchor" href="#umap-of-true-labels"></a>
 </h3>
-<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ArchR/man/plotEmbedding.html" class="external-link">plotEmbedding</a></span><span class="op">(</span>ArchRProj <span class="op">=</span> <span class="va">proj</span>, colorBy <span class="op">=</span> <span class="st">"cellColData"</span>, name <span class="op">=</span> <span class="st">"annotation"</span>, embedding <span class="op">=</span> <span class="st">"MOJITOO_UMAP"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## ArchR logging to : ArchRLogs/ArchR-plotEmbedding-64c5649d5c9c0-Date-2024-10-14_Time-13-45-17.log</span>
+<pre><code><span class="co">## ArchR logging to : ArchRLogs/ArchR-plotEmbedding-fa26e2e6ed43f-Date-2024-10-23_Time-12-31-58.log</span>
 <span class="co">## If there is an issue, please report to github with logFile!</span></code></pre>
 <pre><code><span class="co">## Getting UMAP Embedding</span></code></pre>
 <pre><code><span class="co">## ColorBy = cellColData</span></code></pre>
 <pre><code><span class="co">## Plotting Embedding</span></code></pre>
 <pre><code><span class="co">## 1 </span>
-<span class="co">## ArchR logging successful to : ArchRLogs/ArchR-plotEmbedding-64c5649d5c9c0-Date-2024-10-14_Time-13-45-17.log</span></code></pre>
-<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<span class="co">## ArchR logging successful to : ArchRLogs/ArchR-plotEmbedding-fa26e2e6ed43f-Date-2024-10-23_Time-12-31-58.log</span></code></pre>
+<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p</span></code></pre></div>
 <p><img src="ArchRObject_integration_files/figure-html/UMAP-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="sessioninfo">7. sessionInfo<a class="anchor" aria-label="anchor" href="#sessioninfo"></a>
 </h3>
-<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## R version 4.1.0 (2021-05-18)</span>
 <span class="co">## Platform: x86_64-conda-linux-gnu (64-bit)</span>
@@ -397,8 +411,8 @@ Cheng</h4>
 <span class="co">##  [8] datasets  methods   base     </span>
 <span class="co">## </span>
 <span class="co">## other attached packages:</span>
-<span class="co">##  [1] gridExtra_2.3                     uwot_0.1.14                      </span>
-<span class="co">##  [3] nabor_0.5.0                       Rsamtools_2.8.0                  </span>
+<span class="co">##  [1] uwot_0.1.14                       nabor_0.5.0                      </span>
+<span class="co">##  [3] gridExtra_2.3                     Rsamtools_2.8.0                  </span>
 <span class="co">##  [5] BSgenome.Hsapiens.UCSC.hg38_1.4.3 BSgenome_1.60.0                  </span>
 <span class="co">##  [7] rtracklayer_1.52.1                Biostrings_2.62.0                </span>
 <span class="co">##  [9] XVector_0.34.0                    EnsDb.Hsapiens.v86_2.99.0        </span>
@@ -416,7 +430,7 @@ Cheng</h4>
 <span class="co">## [33] ggplot2_3.4.1                     MOJITOO_1.0                      </span>
 <span class="co">## </span>
 <span class="co">## loaded via a namespace (and not attached):</span>
-<span class="co">##   [1] rappdirs_0.3.3           scattermore_0.8          ragg_1.2.5              </span>
+<span class="co">##   [1] rappdirs_0.3.3           scattermore_0.8          ragg_1.3.3              </span>
 <span class="co">##   [4] tidyr_1.2.1              bit64_4.0.5              knitr_1.42              </span>
 <span class="co">##   [7] irlba_2.3.5.1            DelayedArray_0.18.0      rpart_4.1.19            </span>
 <span class="co">##  [10] KEGGREST_1.34.0          RCurl_1.98-1.10          doParallel_1.0.16       </span>

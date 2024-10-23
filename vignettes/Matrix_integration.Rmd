@@ -1,0 +1,48 @@
+---
+title: "Using MOJITOO in R for Matrix input"
+author: "Mingbo Cheng"
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output: html_document
+---
+
+### 1. download data
+```{bash, echo=FALSE}
+wget --no-check-certificate --no-verbose  https://costalab.ukaachen.de/open_data/MOJITOO/ATAC_LSI.Rds
+wget --no-check-certificate --no-verbose  https://costalab.ukaachen.de/open_data/MOJITOO/RNA_PCA.Rds
+```
+
+
+### 2. library
+```{r library}
+library(MOJITOO)
+```
+
+
+### 3. LOADING DATA
+```{r loading}
+RNA_PCA = readRDS("RNA_PCA.Rds")
+ATAC_LSI = readRDS("ATAC_LSI.Rds")
+(RNA_PCA[1:5, 1:5])
+(ATAC_LSI[1:5, 1:5])
+message("dims of pca & lsi: ", nrow(RNA_PCA), " ", ncol(RNA_PCA), ", ",
+                               nrow(ATAC_LSI), " ", ncol(ATAC_LSI))
+```
+
+
+### 4. RUN MOJITOO
+```{r MOJITOO}
+MOJITOO_DM <- mojitoo_Matrix(
+     reduction_matrix.list= list(RNA_PCA, ATAC_LSI),
+     dims.list = list(1:50, 2:50) ## exclude 1st dimension of LSI
+)
+
+MOJITOO_DM[1:5, 1:5]
+message("dims of MOJITOO_DM: ", nrow(MOJITOO_DM), " ", ncol(MOJITOO_DM))
+```
+
+
+### SessionInfo
+```{r Sessioninfo}
+sessionInfo()
+```
+
