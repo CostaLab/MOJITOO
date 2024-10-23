@@ -2,10 +2,12 @@ from sklearn.cross_decomposition import CCA
 from sklearn.preprocessing import StandardScaler
 from scipy import stats
 from statsmodels.stats.multitest import multipletests
+from typing import Iterable, List, Union, Optional, Set, Tuple, TypeVar
 from collections import Counter
 from anndata import AnnData
+from mudata import MuData
 
-def mojitoo(adata: AnnData,
+def mojitoo(adata: Union[AnnData, MuData]=None,
             reduction_list:list = [],
             dims_list:list = [],
             reduction_name:str = "X_mojitoo",
@@ -22,8 +24,8 @@ def mojitoo(adata: AnnData,
 
     Parameters
     ----
-    adata: AnnData
-        anndata.Anndata
+    adata: AnnData or MuData
+        anndata.Anndata or mudata.MuData object
     reduction_list: list
         reductions in adata.obsm
     dims_list : list
@@ -43,6 +45,8 @@ def mojitoo(adata: AnnData,
     iscopy: bool
         if copy adata, default: False
     """
+    if adata is None:
+        raise ValueError("Please provide an AnnData or MuData object.")
 
     if not overwrite and reduction_name in adata.obsm.keys():
         raise ValueError("reduction name exists, please enable parameter overwrite and re-try")
@@ -51,7 +55,8 @@ def mojitoo(adata: AnnData,
         raise ValueError("At least 2 dimension names in reduction_list")
     if dims_list is None:
         dims_list = []
-    if len(dims_list) !=0 and len(dims_list) !=len(reduction_name):
+    #print(len(reduction_list), len(dims_list))
+    if len(dims_list) !=0 and len(dims_list) !=len(reduction_list):
         raise ValueError("dims_list should be consistent with reduction_list")
 
     assert(fdr_method in ["bonferroni",
@@ -116,3 +121,4 @@ def mojitoo(adata: AnnData,
     adata.obsm[reduction_name] = cca_add
 
     return adata if iscopy else None
+
